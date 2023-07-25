@@ -1,27 +1,68 @@
-# React + TypeScript + Vite
+# Redux
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Gerenciamento de estado global, ao contrario do Context API que ‘e para compartilhamento de estados.
 
-Currently, two official plugins are available:
+### Tipos de estado no React
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Local State (useState)
+- Global State (Redux)
+- Server State (React Query)
 
-## Expanding the ESLint configuration
+### Arquitetura flux
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+![flux](https://github.com/FischerRobson/react-redux-zustand/assets/61335036/aa205fd7-06eb-41e7-ac96-748a4f0d11ae)
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+### Utilizando Redux (instalar Redux Dev Tools)
+
+```json
+"dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.1"
+  },
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Criar um store
+
+```tsx
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+
+const todoSlice = createSlice({
+  name: 'todo',
+  initialState: ['Fazer cafe'],
+  reducers: {},
+})
+
+export const store = configureStore({
+  reducer: {
+    todo: todoSlice.reducer,
+  },
+})
+```
+
+Cada Slice ‘e um estado do store.
+
+### Acessar o store:
+
+```tsx
+import { useSelector } from 'react-redux'
+
+export function TodoList() {
+  const store = useSelector((store) => store)
+
+  return (
+    <ul>
+      <li>Fazer cafe</li>
+    </ul>
+  )
+}
+```
+
+### Para corrigir problemas de tipagem, crie um selector tipado para usar no lugar do useSelector (no mesmo arquivo do store):
+
+```tsx
+export type RootState = ReturnType<typeof store.getState>
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+```
