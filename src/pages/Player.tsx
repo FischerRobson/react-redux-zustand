@@ -1,4 +1,5 @@
-import { ChevronDown, MessageCircle } from 'lucide-react'
+import { ChevronDown, MessageCircle, Video } from 'lucide-react'
+import ReactPlayer from 'react-player'
 
 export function Player() {
   return (
@@ -15,10 +16,38 @@ export function Player() {
             Deixar feedback
           </button>
         </div>
-        <main className="relative flex overflow-hidden rounded-r-lg border border-zinc-800 bg-zinc-900 shadow">
-          <div className="flex-1">video</div>
 
-          <aside className="w-80 border-l border-zinc-800 bg-zinc-900 h-[600px]">
+        <main className="relative flex overflow-hidden rounded-r-lg border border-zinc-800 bg-zinc-900 shadow pr-80">
+          <div className="flex-1">
+            <div className='w-full bg-zinc-950 aspect-video'>
+              <ReactPlayer width="100%" height="100%" controls url="https://www.youtube.com/watch?v=5oi91NmRMHc&ab_channel=LUTYHD" />
+            </div>
+          </div>
+
+          <aside className="w-80 absolute top-0 bottom-0 right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
+            <div>
+              <button className="flex w-full items-center gap-3 bg-zinc-800 p-4">
+                <div className="flex h-10 w-10 rounded-full items-center justify-center bg-zinc-950 text-xs">
+                  1
+                </div>
+
+                <div className="flex flex-col gap-1 text-left">
+                  <strong>Desvendando o Redux</strong>
+                  <span className="text-sm text-zinc-400">12 aulas</span>
+                </div>
+
+                <ChevronDown className="w-5 h-5 ml-auto text-zinc-400" />
+              </button>
+
+              <nav className="flex flex-col relative gap-4 p-6">
+                <button className='flex items-center gap-3 text-sm text-zinc-400'>
+                  <Video className='h-4 w-4 text-zinc-400' />
+                  <span>Fundamentos do Redux</span>
+                  <span className='ml-auto font-mono text-sm text-zinc-500'>9:13</span>
+                </button>
+              </nav>
+            </div>
+
             <div>
               <button className="flex w-full items-center gap-3 bg-zinc-800 p-4">
                 <div className="flex h-10 w-10 rounded-full items-center justify-center bg-zinc-950 text-xs">
@@ -33,6 +62,24 @@ export function Player() {
                 <ChevronDown className="w-5 h-5 ml-auto text-zinc-400" />
               </button>
             </div>
+
+            <div>
+              <button className="flex w-full items-center gap-3 bg-zinc-800 p-4">
+                <div className="flex h-10 w-10 rounded-full items-center justify-center bg-zinc-950 text-xs">
+                  1
+                </div>
+
+                <div className="flex flex-col gap-1 text-left">
+                  <strong>Desvendando o Redux</strong>
+                  <span className="text-sm text-zinc-400">12 aulas</span>
+                </div>
+
+                <ChevronDown className="w-5 h-5 ml-auto text-zinc-400" />
+              </button>
+            </div>
+
+
+            
           </aside>
         </main>
       </div>
