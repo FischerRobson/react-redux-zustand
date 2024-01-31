@@ -15,7 +15,7 @@ export function Video() {
           height="100%"
           controls
           playing
-          url={`https://www.youtube.com/watch?v=${currentLesson.id}`}
+          url={`https://www.youtube.com/watch?v=${currentLesson?.id}`}
           onEnded={() => dispatch(next())}
         />
       </div>

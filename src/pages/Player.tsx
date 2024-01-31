@@ -3,16 +3,28 @@ import { Header } from '../components/Header'
 import { Video } from '../components/Video'
 import { Module } from '../components/Module'
 import { useAppSelector } from '../store'
-import { useCurrentLesson } from '../store/slices/player'
+import { start, useCurrentLesson } from '../store/slices/player'
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { api } from '../lib/api'
 
 export function Player() {
-  const modules = useAppSelector(state => state.player.course.modules)
+  const dispatch = useDispatch()
+
+  const modules = useAppSelector(state => state.player.course?.modules)
 
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
-    document.title = currentLesson.title
+    api.get('/course')
+    .then(res => {
+      dispatch(start(res.data))
+    })
+    .catch(e => console.log(e))
+  }, [])
+
+  useEffect(() => {
+    document.title = currentLesson?.title || ''
   }, [currentLesson])
 
   return (
@@ -32,7 +44,7 @@ export function Player() {
 
           <aside className="w-80 absolute top-0 bottom-0 right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
 
-            {modules.map((module, index) => {
+            {modules?.map((module, index) => {
               return (
                 <Module key={module.id} moduleIndex={index} title={module.title} amountOfLessons={module.lessons.length} />
               )
