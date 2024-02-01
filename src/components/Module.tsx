@@ -3,6 +3,7 @@ import { Lesson } from "./Lesson";
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { useAppDispatch, useAppSelector } from "../store";
 import { play } from "../store/slices/player";
+import { useStore } from "../zustand-store";
 
 interface ModuleProps {
   moduleIndex: number;
@@ -11,13 +12,22 @@ interface ModuleProps {
 }
 
 export function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
-  const lessons = useAppSelector(state => state.player.course?.modules[moduleIndex].lessons)
-  const { currentModuleIndex, currentLessonIndex } = useAppSelector(state => {
-    const { currentModuleIndex, currentLessonIndex } = state.player
-    return { currentModuleIndex, currentLessonIndex }
-  })
+  // const lessons = useAppSelector(state => state.player.course?.modules[moduleIndex].lessons)
+  // const { currentModuleIndex, currentLessonIndex } = useAppSelector(state => {
+  //   const { currentModuleIndex, currentLessonIndex } = state.player
+  //   return { currentModuleIndex, currentLessonIndex }
+  // })
 
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
+
+  const { currentModuleIndex, currentLessonIndex, play } = useStore(store => {
+    return {
+      currentModuleIndex: store.currentModuleIndex,
+      currentLessonIndex: store.currentLessonIndex,
+      play: store.play
+    }
+  })
+  const lessons = useStore(state => state.course?.modules[moduleIndex].lessons)
 
   return (
     <Collapsible.Root className="group" defaultOpen={moduleIndex === 0}>
@@ -43,7 +53,8 @@ export function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
                 title={lesson.title}
                 duration={lesson.duration}
                 isActive={moduleIndex === currentModuleIndex && currentLessonIndex === index}
-                onPlay={() => dispatch(play({ moduleIndex, lessonIndex: index }))}
+                // onPlay={() => dispatch(play({ moduleIndex, lessonIndex: index }))}
+                onPlay={() => play({ moduleIndex, lessonIndex: index })}
               /> 
             )
           })}

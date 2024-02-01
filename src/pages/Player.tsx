@@ -2,19 +2,32 @@ import {  MessageCircle } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Video } from '../components/Video'
 import { Module } from '../components/Module'
-import { useAppDispatch, useAppSelector } from '../store'
-import { loadCourse, useCurrentLesson } from '../store/slices/player'
+// import { useAppDispatch, useAppSelector } from '../store'
+// import { loadCourse, useCurrentLesson } from '../store/slices/player'
 import { useEffect } from 'react'
+import { useStore, useCurrentLesson } from '../zustand-store'
 
 export function Player() {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
-  const modules = useAppSelector(state => state.player.course?.modules)
+  // const modules = useAppSelector(state => state.player.course?.modules)
 
+  // const { currentLesson } = useCurrentLesson()
+
+  // useEffect(() => {
+  //     dispatch(loadCourse())
+  // }, [])
+
+  const { course, load } = useStore(store => {
+    return {
+      course: store.course,
+      load: store.load
+    }
+  })
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
-      dispatch(loadCourse())
+    load()
   }, [])
 
   useEffect(() => {
@@ -38,7 +51,7 @@ export function Player() {
 
           <aside className="w-80 absolute top-0 bottom-0 right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
 
-            {modules?.map((module, index) => {
+            {course?.modules?.map((module, index) => {
               return (
                 <Module key={module.id} moduleIndex={index} title={module.title} amountOfLessons={module.lessons.length} />
               )

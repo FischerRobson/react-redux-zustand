@@ -5,8 +5,8 @@ import { Player } from './pages/Player'
 
 export function App() {
   return (
-    <ReduxProvider store={store}>
+    // <ReduxProvider store={store}>
       <Player />
-    </ReduxProvider>
+    // </ReduxProvider>
   )
 }
